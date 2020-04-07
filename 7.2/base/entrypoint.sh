@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export NGINX_WEB_ROOT=${NGINX_WEB_ROOT:-'/var/www/html'}
+export NGINX_WEB_ROOT=${NGINX_WEB_ROOT:-'/var/www/html/public'}
 export NGINX_PHP_FALLBACK=${NGINX_PHP_FALLBACK:-'/index.php'}
 export NGINX_PHP_LOCATION=${NGINX_PHP_LOCATION:-'^/index\.php(/|$$)'}
 export NGINX_USER=${NGINX_USER:-'www-data'}

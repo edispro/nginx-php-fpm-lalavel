@@ -3,7 +3,10 @@ worker_processes auto;
 pid /run/nginx.pid;
 
 events {
-	worker_connections 768;
+	worker_connections 20000;
+	use                 epoll;
+	multi_accept        on;
+
 }
 
 http {
@@ -12,6 +15,30 @@ http {
 	tcp_nodelay on;
 	keepalive_timeout 65;
 	types_hash_max_size 2048;
+	client_header_timeout 3m;
+	client_body_timeout 3m;
+	client_max_body_size 256m;
+	client_header_buffer_size 4k;
+	client_body_buffer_size 256k;
+	large_client_header_buffers 4 32k;
+	send_timeout 3m;
+	reset_timedout_connection       on;
+	server_names_hash_max_size 1024;
+	server_names_hash_bucket_size 1024;
+	ignore_invalid_headers on;
+	connection_pool_size 256;
+	request_pool_size 4k;
+	output_buffers 4 32k;
+	postpone_output 1460;
+
+fastcgi_buffer_size 128k;
+fastcgi_buffers 256 16k;
+fastcgi_busy_buffers_size 256k;
+fastcgi_temp_file_write_size 256k;
+fastcgi_send_timeout 120;
+fastcgi_read_timeout 120;
+fastcgi_intercept_errors on;
+fastcgi_param HTTP_PROXY "";
 
 	include /etc/nginx/mime.types;
 	default_type application/octet-stream;
@@ -21,7 +48,7 @@ http {
 
 	access_log /var/log/nginx/access.log;
 	error_log /var/log/nginx/error.log;
-
+	access_log off;
 	gzip on;
 	gzip_disable "msie6";
 
